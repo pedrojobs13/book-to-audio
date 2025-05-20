@@ -1,20 +1,24 @@
-# Use a imagem base do Coqui-AI TTS (CPU version)
 FROM ghcr.io/coqui-ai/tts-cpu:latest
 
-# Expor a porta 7860 para o Gradio (caso você use no futuro)
-EXPOSE 7860
-
-# Definir o diretório de trabalho
 WORKDIR /app
 
-# Instalar gradio (seu código importa esta biblioteca)
+# Instalar dependências necessárias
 RUN pip install --no-cache-dir gradio
+RUN pip install pymupdf
+RUN pip install langchain
+RUN pip install langchain_core
+RUN pip install dotenv
+RUN pip install langchain-groq
 
-# Copiar seu arquivo app.py para dentro do container
+# Criar diretório para os arquivos de saída
+RUN mkdir -p /app/outputs
+
+# Copiar o script Python e o arquivo de texto grande (se disponível)
 COPY app.py /app/app.py
+COPY Walter-Isaacson-Elon-Musk-2023-S.pdf /app/Walter-Isaacson-Elon-Musk-2023-S.pdf
 
-# Especificar o entrypoint para evitar conflitos com o comando 'tts'
+# Usar o entrypoint explícito para evitar conflito com o comando "tts"
 ENTRYPOINT ["python3"]
 
-# Executar seu script app.py
+# Comando para executar o script Python
 CMD ["/app/app.py"]
