@@ -15,6 +15,7 @@ docker run -it -p 7860:7860 tts-app
 
 ## Criar venv
 python -m venv venv
+
 .\venv\Scripts\activate
 
 ## Instalar pacotes
